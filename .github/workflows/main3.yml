@@ -1,0 +1,21 @@
+name: CI
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Download
+        run: Invoke-WebRequest https://localtonet.com/download/localtonet-win-64.zip -OutFile localtonet-win-64.zip
+      - name: Extract
+        run: Expand-Archive localtonet-win-64.zip
+      - name: Auth
+        run: .\localtonet-win-64\localtonet.exe $Env: LOCALTONET_AUTH_TOKEN
+        env:
+          LOCALTONET_AUTH_TOKEN: ${{ secrets.LOCALTONET_AUTH_TOKENLOCALTONET_AUTH_TOKEN }}
+      - run: Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+      - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+      - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd!" -Force)
+
