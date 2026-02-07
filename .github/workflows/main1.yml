@@ -1,0 +1,11 @@
+name: CI
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Download
+        run: Invoke-WebRequest https://localtonet.com/download/localtonet-win-64.zip -OutFile localtonet-win-64.zip￼Enter
