@@ -8,4 +8,6 @@ jobs:
 
     steps:
       - name: Download
-        run: Invoke-WebRequest https://localtonet.com/download/localtonet-win-64.zip -OutFile localtonet-win-64.zip￼Enter
+        run: Invoke-WebRequest https://localtonet.com/download/localtonet-win-64.zip -OutFile localtonet-win-64.zip
+      - name: Extract
+        run: Expand-Archive localtonet-win-64.zip
